@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKSU Campus Kiosk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="logo floating"></div>
+            <h2>Loading SKSU Campus Information...</h2>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo floating"></div>
+                    <div class="university-info">
+                        <h1>SULTAN KUDARAT STATE UNIVERSITY</h1>
+                        <p>EJC Montilla, 9800, Province of Sultan Kudarat, Philippines</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">(064) 200 7336</div>
+                    <div class="contact-item">info@sksu.edu.ph</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Slideshow Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Slideshow Section -->
+            <section class="slideshow-section">
+                <div class="slideshow-container">
+                    <div class="slides-wrapper" id="slidesWrapper">
+                        <!-- Slides will be dynamically loaded here -->
+                    </div>
+                    <div class="slideshow-dots" id="slideshowDots"></div>
+                    <div class="slide-counter" id="slideCounter">1 / 1</div>
+                </div>
+                
+                <!-- No Data Message -->
+                <div class="no-data-message" id="noDataMessage" style="display: none;">
+                    <div class="no-data-content">
+                        <h3>📋 Welcome to SKSU Campus Kiosk</h3>
+                        <p>No announcements or events to display at the moment.</p>
+                        <p>Please check back later for updates.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- University Info Cards (Always show as backup content) -->
+            <section class="info-cards">
+                <div class="vision-mission">
+                    <div class="card">
+                        <h3>UNIVERSITY VISION</h3>
+                        <p>A leading University in advancing scholarly innovation, multi-cultural convergence, and responsive public service in a borderless Region.</p>
+                    </div>
+                    <div class="card">
+                        <h3>UNIVERSITY MISSION</h3>
+                        <p>The University shall primarily provide advanced instruction and professional training in science and technology, agriculture, fisheries, education and other relevant fields of study. It shall also undertake research and extension services, and provide progressive leadership in its areas of specialization.</p>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">7</div>
+                            <div class="stat-label">Campuses</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Degree Programs</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">15,000+</div>
+                            <div class="stat-label">Students</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Faculty & Staff</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="campus-section">
+                    <h2 class="section-title">SKSU Campuses</h2>
+                    <div class="campus-grid">
+                        <div class="campus-card">
+                            <h4>ACCESS Campus (Main)</h4>
+                            <p>EJC Montilla, Tacurong City</p>
+                        </div>
+                        <div class="campus-card">
+                            <h4>Isulan Campus</h4>
+                            <p>Isulan, Sultan Kudarat</p>
+                        </div>
+                        <div class="campus-card">
+                            <h4>Tacurong Campus</h4>
+                            <p>Tacurong City</p>
+                        </div>
+                        <div class="campus-card">
+                            <h4>Kalamansig Campus</h4>
+                            <p>Kalamansig, Sultan Kudarat</p>
+                        </div>
+                        <div class="campus-card">
+                            <h4>Bagumbayan Campus</h4>
+                            <p>Bagumbayan, Sultan Kudarat</p>
+                        </div>
+                        <div class="campus-card">
+                            <h4>Palimbang Campus</h4>
+                            <p>Palimbang, Sultan Kudarat</p>
+                        </div>
+                        <div class="campus-card">
+                            <h4>Lutayan Campus</h4>
+                            <p>Lutayan, Sultan Kudarat</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo"></div>
+                <div class="footer-text">
+                    Copyright © 2025. Sultan Kudarat State University. All Rights Reserved.<br>
+                    Campus Information Kiosk System
+                    <div class="last-updated" id="lastUpdated">Last updated: <span id="updateTime">Loading...</span></div>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/SKSUfbofficial" class="social-link" target="_blank">📘</a>
+                    <a href="https://twitter.com/SKSUOfficial" class="social-link" target="_blank">🐦</a>
+                    <a href="https://youtube.com/channel/UC--9weEttrzi_aus3na8MqA" class="social-link" target="_blank">📺</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
