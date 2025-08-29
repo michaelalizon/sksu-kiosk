@@ -1,7 +1,7 @@
 // SKSU Campus Kiosk JavaScript
 // Configuration
 const CONFIG = {
-    SPREADSHEET_URL: 'https://docs.google.com/spreadsheets/d/1f74bbovZFgzWKTJnha4XEESEu6qWfBVLmMVu0XZvdYw/gviz/tq?tqx=out:csv&sheet=Slide_Show',
+    SPREADSHEET_URL: 'https://docs.google.com/spreadsheets/d/1f74bbovZFgzWKTJnha4XEESEu6qWfBVLmMVu0XZvdYw/gviz/tq?tqx=out:csv&gid=1509811981',
     REFRESH_INTERVAL: 30000, // 30 seconds
     SLIDE_DURATION: 8000, // 8 seconds per slide
     FALLBACK_IMAGE: 'https://sksu.edu.ph/wp-content/uploads/2021/04/sksu1.png'
@@ -43,13 +43,21 @@ class SlideshowManager {
     async loadSlides() {
         try {
             console.log('📊 Loading slideshow data from Google Sheets...');
+            console.log('📋 Spreadsheet URL:', CONFIG.SPREADSHEET_URL);
             
             // Fetch data from Google Sheets CSV export
             const response = await fetch(CONFIG.SPREADSHEET_URL);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
             const csvText = await response.text();
+            console.log('📄 Raw CSV data:', csvText.substring(0, 200) + '...');
             
             // Parse CSV data
             const rows = this.parseCSV(csvText);
+            console.log('📊 Parsed rows:', rows.length);
             
             if (rows.length <= 1) {
                 console.log('⚠️ No data found in spreadsheet');
@@ -61,18 +69,27 @@ class SlideshowManager {
             const dataRows = rows.slice(1);
             this.slides = dataRows
                 .filter(row => row[2] && row[2].trim() !== '') // Filter rows with titles
-                .map(row => ({
-                    imageUrl: this.processImageUrl(row[0] || ''),
-                    description: row[1] || 'No description available',
-                    title: row[2] || 'Untitled',
-                    campusId: row[3] || 'Main Campus'
-                }));
+                .map((row, index) => {
+                    console.log(`🔍 Processing slide ${index + 1}:`, {
+                        imageUrl: row[0],
+                        description: row[1],
+                        title: row[2],
+                        campusId: row[3]
+                    });
+                    return {
+                        imageUrl: this.processImageUrl(row[0] || ''),
+                        description: row[1] || 'No description available',
+                        title: row[2] || 'Untitled',
+                        campusId: row[3] || 'Main Campus'
+                    };
+                });
             
             console.log(`✅ Loaded ${this.slides.length} slides successfully`);
             this.lastUpdateTime = Date.now();
             
         } catch (error) {
             console.error('❌ Error loading slideshow data:', error);
+            console.error('❌ Full error details:', error.message);
             this.slides = [];
         }
     }
@@ -104,11 +121,13 @@ class SlideshowManager {
     
     processImageUrl(url) {
         if (!url || url.trim() === '') {
+            console.log('⚠️ Empty image URL, using fallback');
             return CONFIG.FALLBACK_IMAGE;
         }
         
         // Clean the URL (remove quotes if any)
-        url = url.replace(/['"]/g, '');
+        url = url.replace(/['"]/g, '').trim();
+        console.log('🔗 Processing image URL:', url);
         
         // Handle Google Drive URLs
         if (url.includes('drive.google.com')) {
@@ -121,15 +140,24 @@ class SlideshowManager {
             } else if (url.includes('id=')) {
                 const match = url.match(/id=([a-zA-Z0-9-_]+)/);
                 fileId = match ? match[1] : '';
+            } else if (url.includes('/open?id=')) {
+                const match = url.match(/\/open\?id=([a-zA-Z0-9-_]+)/);
+                fileId = match ? match[1] : '';
             }
             
             if (fileId) {
                 // Convert to direct image URL that works with CORS
-                return `https://drive.google.com/uc?export=view&id=${fileId}`;
+                const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+                console.log('✅ Converted Google Drive URL:', directUrl);
+                return directUrl;
+            } else {
+                console.log('⚠️ Could not extract file ID from Google Drive URL, using fallback');
+                return CONFIG.FALLBACK_IMAGE;
             }
         }
         
         // For other URLs, return as is
+        console.log('✅ Using direct URL:', url);
         return url;
     }
     
